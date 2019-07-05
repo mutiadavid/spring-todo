@@ -1,73 +1,90 @@
 package com.example.demo.controllers;
 
 import com.example.demo.requests.CreateToDoRequest;
+import com.example.demo.responses.ResponseClass;
 import com.example.demo.responses.ToDoResponse;
-import com.example.demo.services.contracts.TodoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import com.example.demo.services.TodoService;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(path = "api/todo")
+@RequestMapping(value = "api/todo")
 @RestController
 public class TodoController {
 
+
+    private final TodoService todoService;
     @Autowired
-    private TodoService todoService;
+    public TodoController(TodoService todoService) {
+        this.todoService = todoService;
+    }
 
     @PostMapping
-    public ResponseEntity createToDo(@RequestBody CreateToDoRequest createToDoRequest){
+    public ResponseClass createToDo(@RequestBody CreateToDoRequest createToDoRequest){
+       ResponseClass responseClass=new ResponseClass();
         try {
             ToDoResponse response =  todoService.createToDo(createToDoRequest);
-
-            return ResponseEntity.ok(response);
+            responseClass.setResponseData(response);
+            return responseClass;
         } catch (Exception e) {
-            return  ResponseEntity.status(500).build();
+            responseClass.setInternalServerError(e);
+              return responseClass;
         }
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity getTodo(@PathVariable UUID id) throws Exception {
+    @RequestMapping(value = "/{id}")
+    public ResponseClass getTodo(@PathVariable UUID id) throws Exception {
+           ResponseClass responseClass=new ResponseClass();
         try {
             ToDoResponse todo = todoService.getTodo(id);
-            return  ResponseEntity.ok(todo);
+            responseClass.setResponseData(todo);
+            return  responseClass;
         }
         catch (Exception ex){
-            throw ex;
+            responseClass.setInternalServerError(ex);
+            return  responseClass;
         }
     }
 
     @GetMapping()
-    public ResponseEntity getTodos() throws Exception {
+    public ResponseClass getTodos() throws Exception {
+          ResponseClass responseClass=new ResponseClass();
         try {
             List<ToDoResponse> todo = todoService.getTodos();
-            return  ResponseEntity.ok(todo);
+               responseClass.setResponseData(todo);
+            return  responseClass;
         }
         catch (Exception ex){
-            throw ex;
+            responseClass.setInternalServerError(ex);
+            return  responseClass;
         }
     }
 
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity deleteTodo(@PathVariable UUID id) throws Exception {
+    @RequestMapping(value = "/{id}",method=RequestMethod.PUT)
+    public ResponseClass deleteTodo(@PathVariable UUID id) throws Exception {
+           ResponseClass responseClass=new ResponseClass();
         try {
             todoService.deleteTodo(id);
-            return  ResponseEntity.ok().build();
+            responseClass.setResponseData("");
+            return  responseClass;
         }
         catch (Exception ex){
-            throw ex;
+            responseClass.setInternalServerError(ex);
+            return  responseClass;
         }
     }
-    @PutMapping(path = "/{id}")
-    public ResponseEntity updateTodo(@PathVariable UUID id, @RequestBody CreateToDoRequest toDoRequest) throws Exception {
+    @RequestMapping(value = "/{id}",method=RequestMethod.PUT)
+    public ResponseClass updateTodo(@PathVariable UUID id, @RequestBody CreateToDoRequest toDoRequest) throws Exception {
+           ResponseClass responseClass=new ResponseClass();
         try {
             ToDoResponse todo = todoService.updateTodo(id,toDoRequest);
-            return  ResponseEntity.ok(todo);
+            responseClass.setResponseData(todo);
+            return  responseClass;
         }
         catch (Exception ex){
-            throw ex;
+            responseClass.setInternalServerError(ex);
+            return  responseClass;
         }
     }
 }

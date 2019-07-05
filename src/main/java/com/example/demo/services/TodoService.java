@@ -4,23 +4,21 @@ import com.example.demo.data.Todo;
 import com.example.demo.repositories.TodoRepository;
 import com.example.demo.requests.CreateToDoRequest;
 import com.example.demo.responses.ToDoResponse;
-import com.example.demo.services.contracts.TodoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
-public class TodoServiceImpl implements TodoService {
+public class TodoService{
 
     @Autowired
     private  TodoRepository todoRepository;
 
 
-    @Override
+
     public ToDoResponse createToDo(CreateToDoRequest createToDoRequest) throws  Exception{
         if (createToDoRequest != null){
             Todo todo = new Todo();
@@ -42,7 +40,7 @@ public class TodoServiceImpl implements TodoService {
         throw new Exception("CreateToDoRequest is null!");
     }
 
-    @Override
+
     public ToDoResponse getTodo(UUID id) throws  Exception {
         Optional<Todo> todo = todoRepository.findById(id);
 
@@ -60,7 +58,7 @@ public class TodoServiceImpl implements TodoService {
         throw  new Exception("Todo by Id: "+id.toString() +" Not Found");
     }
 
-    @Override
+
     public ToDoResponse updateTodo(UUID id, CreateToDoRequest updateTodoRequest) throws  Exception{
         Optional<Todo> todo = todoRepository.findById(id);
         if(!todo.isPresent())
@@ -82,7 +80,7 @@ public class TodoServiceImpl implements TodoService {
 
     }
 
-    @Override
+  
     public List<ToDoResponse> getTodos() {
         List<ToDoResponse> toDoResponseList = new ArrayList<>();
 
@@ -101,7 +99,7 @@ public class TodoServiceImpl implements TodoService {
         return toDoResponseList;
     }
 
-    @Override
+  
     public void deleteTodo(UUID id) throws  Exception{
         Optional<Todo> todo = todoRepository.findById(id);
         if(!todo.isPresent())
