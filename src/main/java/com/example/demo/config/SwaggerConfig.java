@@ -20,14 +20,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @WebServlet(name = "SwaggerJaxrsConfig", loadOnStartup = 2)
 public class SwaggerConfig extends HttpServlet {
 
-    @Value("${spring.switch.context}")
-    private String context;
-
-    @Value("${api.oauth.client}")
-    private String client;
-
-    @Value("${api.oauth.secret}")
-    private String secret;
     private static final String API_VERSION = "1.0";
     private static final String API_TITLE = "Pesatel Mobile Alternative Banking Channel";
     private static final String API_DESCRIPTION = "Directcore Pesatel Mobile Alternative Banking Banking Channel Api";

@@ -33,7 +33,7 @@ public class TodoController {
         }
     }
 
-    @RequestMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseClass getTodo(@PathVariable UUID id) throws Exception {
            ResponseClass responseClass=new ResponseClass();
         try {
@@ -61,7 +61,7 @@ public class TodoController {
         }
     }
 
-    @RequestMapping(value = "/{id}",method=RequestMethod.PUT)
+    @DeleteMapping(value = "/{id}")
     public ResponseClass deleteTodo(@PathVariable UUID id) throws Exception {
            ResponseClass responseClass=new ResponseClass();
         try {
@@ -74,7 +74,7 @@ public class TodoController {
             return  responseClass;
         }
     }
-    @RequestMapping(value = "/{id}",method=RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     public ResponseClass updateTodo(@PathVariable UUID id, @RequestBody CreateToDoRequest toDoRequest) throws Exception {
            ResponseClass responseClass=new ResponseClass();
         try {
