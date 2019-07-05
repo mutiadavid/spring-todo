@@ -1,15 +1,16 @@
 package com.example.demo.controllers;
 
-
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.view.RedirectView;
 
-@RequestMapping(path = "api/home")
-@RestController
+@Controller
 public class HomeController {
-    @GetMapping
-    public String hello(){
-        return  "Hello Spring!";
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public RedirectView main() {
+        return new RedirectView("swagger-ui.html");
     }
+
 }
