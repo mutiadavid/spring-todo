@@ -18,7 +18,7 @@ public class TodoController {
     private TodoService todoService;
 
     @PostMapping
-    public ResponseEntity createToDo(@RequestBody CreateToDoRequest createToDoRequest){
+    public ResponseEntity<?> createToDo(@RequestBody CreateToDoRequest createToDoRequest){
         try {
             ToDoResponse response =  todoService.createToDo(createToDoRequest);
 
@@ -29,7 +29,7 @@ public class TodoController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity getTodo(@PathVariable UUID id) throws Exception {
+    public ResponseEntity<?> getTodo(@PathVariable UUID id) throws Exception {
         try {
             ToDoResponse todo = todoService.getTodo(id);
             return  ResponseEntity.ok(todo);
@@ -40,7 +40,7 @@ public class TodoController {
     }
 
     @GetMapping()
-    public ResponseEntity getTodos() throws Exception {
+    public ResponseEntity<?> getTodos() throws Exception {
         try {
             List<ToDoResponse> todo = todoService.getTodos();
             return  ResponseEntity.ok(todo);
@@ -51,7 +51,7 @@ public class TodoController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity deleteTodo(@PathVariable UUID id) throws Exception {
+    public ResponseEntity<?> deleteTodo(@PathVariable UUID id) throws Exception {
         try {
             todoService.deleteTodo(id);
             return  ResponseEntity.ok().build();
@@ -61,7 +61,7 @@ public class TodoController {
         }
     }
     @PutMapping(path = "/{id}")
-    public ResponseEntity updateTodo(@PathVariable UUID id, @RequestBody CreateToDoRequest toDoRequest) throws Exception {
+    public ResponseEntity<?> updateTodo(@PathVariable UUID id, @RequestBody CreateToDoRequest toDoRequest) throws Exception {
         try {
             ToDoResponse todo = todoService.updateTodo(id,toDoRequest);
             return  ResponseEntity.ok(todo);
